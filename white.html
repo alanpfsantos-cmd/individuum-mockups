@@ -32,6 +32,24 @@
     h1,h2,h3,h4 { font-family:'Montserrat', sans-serif; }
     .container { max-width:1160px; margin:0 auto; padding:0 28px; }
 
+    /* ─── WATERMARK ────────────────────────────────────────────────────── */
+    .wm {
+      position:absolute; pointer-events:none; user-select:none; z-index:0;
+    }
+    .wm img { display:block; width:100%; }
+    /* hero watermark — fundo claro → multiply apaga o branco do JPEG */
+    .wm-hero {
+      right:-5%; top:50%; transform:translateY(-50%);
+      width:52%; max-width:660px;
+      opacity:.055; mix-blend-mode:multiply;
+    }
+    /* footer watermark — fundo escuro → invert + opacidade baixa */
+    .wm-footer {
+      right:4%; top:50%; transform:translateY(-50%);
+      width:260px; opacity:.06;
+      filter:invert(1) brightness(4);
+    }
+
     /* ─── NAVBAR ──────────────────────────────────────────────────────── */
     .navbar {
       background:rgba(255,255,255,0.92);
@@ -430,7 +448,7 @@
   <div class="container">
     <div class="navbar-inner">
       <img src="https://d2xsxph8kpxj0f.cloudfront.net/310419663028841721/NEpQmgbm9teEL77zDyeopH/logo-individuum_2ce6e7e8.jpeg"
-           alt="Individuum" style="height:40px;object-fit:contain;" />
+           alt="Individuum" style="height:54px;object-fit:contain;" />
       <div class="nav-links">
         <a href="#">Sobre a NR-1</a>
         <a href="#">Como Funciona</a>
@@ -446,8 +464,12 @@
 </nav>
 
 <!-- ══ HERO ════════════════════════════════════════════════════════════════ -->
-<section class="hero">
-  <div class="container">
+<section class="hero" style="position:relative;">
+  <!-- Marca d'água da digital no fundo do hero -->
+  <div class="wm wm-hero">
+    <img src="https://d2xsxph8kpxj0f.cloudfront.net/310419663028841721/NEpQmgbm9teEL77zDyeopH/logo-individuum_2ce6e7e8.jpeg" alt="" />
+  </div>
+  <div class="container" style="position:relative;z-index:1;">
     <div class="hero-grid">
 
       <div>
@@ -839,14 +861,19 @@
 </section>
 
 <!-- ══ FOOTER ════════════════════════════════════════════════════════════════ -->
-<footer>
-  <div class="container">
+<footer style="position:relative;overflow:hidden;">
+  <!-- Marca d'água no footer -->
+  <div class="wm wm-footer">
+    <img src="https://d2xsxph8kpxj0f.cloudfront.net/310419663028841721/NEpQmgbm9teEL77zDyeopH/logo-individuum_2ce6e7e8.jpeg" alt="" />
+  </div>
+  <div class="container" style="position:relative;z-index:1;">
     <div class="footer-inner">
       <img src="https://d2xsxph8kpxj0f.cloudfront.net/310419663028841721/NEpQmgbm9teEL77zDyeopH/logo-individuum_2ce6e7e8.jpeg"
            alt="Individuum" style="height:28px;filter:invert(1) brightness(4);" />
       <p class="footer-slogan">Psicologia profunda. Tecnologia com consciência.</p>
       <p class="footer-copy">© 2026 Individuum. Todos os direitos reservados.</p>
     </div>
+  </div>
   </div>
 </footer>
 
