@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Individuum — NR-1 Digital (v2)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── DESIGN TOKENS — Individuum × Stripe-inspired ─────────────────── */
+    :root {
+      --gold:          #D4AF37;
+      --gold-deep:     #B8972E;
+      --gold-press:    #8A6E20;
+      --gold-soft:     rgba(212,175,55,0.10);
+      --gold-hairline: rgba(212,175,55,0.20);
+      --navy:          #0A1128;
+      --navy-2:        #0f1a35;
+      --card:          #111827;
+      --card-2:        #1C2541;
+      --red:           #E74C3C;
+      --white:         #FFFFFF;
+      --text-1:        #F1F5F9;
+      --text-2:        #94A3B8;
+      --text-3:        #64748B;
+      --line:          rgba(255,255,255,0.07);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { font-size:16px; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      background: var(--navy);
+      color: var(--text-1);
+      font-feature-settings: 'ss01';
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .container { max-width:1200px; margin:0 auto; padding:0 36px; }
+
+    /* ─── NAVBAR ──────────────────────────────────────────────────────── */
+    .navbar {
+      position:sticky; top:0; z-index:100;
+      background: rgba(10,17,40,0.80);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--line);
+    }
+    .navbar-inner {
+      display:flex; align-items:center; justify-content:space-between;
+      height:72px;
+    }
+    .nav-links { display:flex; gap:36px; }
+    .nav-links a {
+      color:var(--text-2); font-size:14px; font-weight:400;
+      text-decoration:none; letter-spacing:-0.1px; transition:color .15s;
+    }
+    .nav-links a:hover { color:var(--white); }
+    .nav-actions { display:flex; gap:10px; align-items:center; }
+    .btn-ghost {
+      background:transparent; border:1px solid var(--line);
+      color:var(--text-2); padding:8px 20px; border-radius:9999px;
+      font-size:14px; font-weight:400; cursor:pointer; font-family:inherit;
+      transition:border-color .15s, color .15s;
+    }
+    .btn-ghost:hover { border-color:rgba(255,255,255,.25); color:var(--white); }
+    .btn-pill-gold {
+      background:var(--gold); color:var(--navy);
+      padding:8px 22px; border-radius:9999px;
+      font-size:14px; font-weight:600;
+      border:none; cursor:pointer; font-family:inherit; letter-spacing:-0.1px;
+      transition:background .15s;
+    }
+    .btn-pill-gold:hover { background:var(--gold-deep); }
+
+    /* ─── HERO ─────────────────────────────────────────────────────────── */
+    .hero {
+      position:relative; min-height:94vh;
+      display:flex; align-items:center;
+      padding:100px 0 80px; overflow:hidden;
+    }
+    /* Atmospheric gradient mesh */
+    .hero::before {
+      content:''; position:absolute; inset:0; z-index:0;
+      background:
+        radial-gradient(ellipse 75% 55% at 15% 25%, rgba(212,175,55,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 70% at 85% 75%, rgba(28,37,65,.75) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 40% at 50% -5%, rgba(212,175,55,.04) 0%, transparent 45%),
+        linear-gradient(175deg, #060d1c 0%, #0A1128 45%, #0d1835 100%);
+    }
+    /* Subtle grid overlay */
+    .hero::after {
+      content:''; position:absolute; inset:0; z-index:0;
+      background-image:
+        linear-gradient(rgba(212,175,55,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,175,55,.025) 1px, transparent 1px);
+      background-size:64px 64px;
+    }
+    .hero-grid {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:80px; align-items:center;
+      position:relative; z-index:1;
+    }
+
+    /* Left */
+    .eyebrow {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(212,175,55,.07); border:1px solid rgba(212,175,55,.18);
+      padding:5px 14px; border-radius:9999px; margin-bottom:28px;
+    }
+    .eyebrow-dot {
+      width:6px; height:6px; border-radius:50%; background:var(--gold);
+      animation:pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .eyebrow span {
+      font-size:11px; font-weight:500; color:var(--gold);
+      letter-spacing:1.5px; text-transform:uppercase;
+    }
+    .hero-h1 {
+      font-size:58px; font-weight:300; line-height:1.04;
+      letter-spacing:-1.5px; margin-bottom:14px;
+    }
+    .hero-h1 strong { font-weight:700; }
+    .hero-h1 em { color:var(--gold); font-style:normal; }
+    .hero-sub {
+      font-size:17px; font-weight:300; line-height:1.75;
+      color:var(--text-2); margin-bottom:36px; max-width:480px; letter-spacing:-0.1px;
+    }
+    .hero-btns { display:flex; gap:12px; margin-bottom:44px; flex-wrap:wrap; }
+    .btn-hero-primary {
+      background:var(--gold); color:var(--navy);
+      padding:14px 34px; border-radius:9999px;
+      font-size:15px; font-weight:600;
+      border:none; cursor:pointer; font-family:inherit; letter-spacing:-0.2px;
+    }
+    .btn-hero-secondary {
+      background:transparent;
+      border:1px solid rgba(255,255,255,.14); color:var(--text-1);
+      padding:14px 34px; border-radius:9999px;
+      font-size:15px; font-weight:400;
+      cursor:pointer; font-family:inherit; letter-spacing:-0.2px;
+    }
+    .social-proof { display:flex; align-items:center; gap:14px; }
+    .avatars { display:flex; }
+    .avatars img {
+      width:32px; height:32px; border-radius:50%;
+      border:2px solid var(--navy); margin-left:-9px; object-fit:cover;
+    }
+    .avatars img:first-child { margin-left:0; }
+    .social-text { font-size:13px; color:var(--text-2); }
+    .social-text strong { color:var(--gold); font-weight:500; }
+
+    /* Right — visual */
+    .hero-visual { position:relative; }
+    .hero-photo {
+      width:100%; height:520px; border-radius:20px;
+      object-fit:cover; filter:brightness(.88);
+    }
+    /* Floating cards */
+    .fcard {
+      position:absolute;
+      background:rgba(17,24,39,.90);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      border:1px solid var(--gold-hairline);
+      border-radius:16px;
+      box-shadow:0 24px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(212,175,55,.06);
+    }
+    .fcard-dashboard { bottom:-28px; left:-52px; padding:20px 24px; width:284px; }
+    .fcard-badge    { top:28px; right:-36px; padding:16px 20px; text-align:center; }
+
+    .fc-label {
+      font-size:10px; font-weight:500; letter-spacing:1.5px;
+      text-transform:uppercase; color:var(--text-3); margin-bottom:6px;
+    }
+    .fc-metric {
+      font-size:30px; font-weight:300; letter-spacing:-1px;
+      color:var(--gold); font-feature-settings:'tnum'; line-height:1;
+    }
+    .fc-sub { font-size:11px; color:var(--text-3); margin-top:4px; }
+    .bars { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+    .bar-row { }
+    .bar-header {
+      display:flex; justify-content:space-between;
+      font-size:11px; color:var(--text-2); margin-bottom:4px;
+    }
+    .bar-track { height:4px; background:rgba(255,255,255,.06); border-radius:9999px; }
+    .bar-fill  { height:4px; border-radius:9999px; }
+    .badge-num {
+      font-size:34px; font-weight:300; letter-spacing:-1.2px;
+      color:var(--gold); font-feature-settings:'tnum'; line-height:1;
+    }
+    .badge-lbl {
+      font-size:10px; color:var(--text-3); margin-top:5px;
+      text-transform:uppercase; letter-spacing:1px;
+    }
+
+    /* ─── PROOF STRIP ──────────────────────────────────────────────────── */
+    .proof-strip {
+      background:var(--card);
+      border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+      padding:36px 0;
+    }
+    .proof-inner {
+      display:flex; justify-content:space-between; align-items:center;
+      gap:24px; flex-wrap:wrap;
+    }
+    .proof-stat { text-align:center; flex:1; min-width:110px; }
+    .proof-num {
+      font-size:36px; font-weight:300; letter-spacing:-1.2px;
+      color:var(--gold); font-feature-settings:'tnum'; line-height:1;
+    }
+    .proof-lbl { font-size:12px; color:var(--text-3); margin-top:5px; letter-spacing:-0.1px; }
+    .proof-div { width:1px; height:44px; background:var(--line); }
+
+    /* ─── SECTIONS BASE ─────────────────────────────────────────────────── */
+    section { padding:96px 0; }
+    .sec-eye {
+      font-size:11px; font-weight:500; letter-spacing:2px;
+      text-transform:uppercase; color:var(--gold); margin-bottom:14px;
+    }
+    .sec-h2 {
+      font-size:42px; font-weight:300; letter-spacing:-1.1px;
+      line-height:1.08; margin-bottom:16px;
+    }
+    .sec-h2 strong { font-weight:700; }
+    .sec-sub {
+      font-size:16px; color:var(--text-2); line-height:1.75; max-width:580px;
+    }
+
+    /* ─── FEATURES GRID ─────────────────────────────────────────────────── */
+    .feat-grid {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:2px; margin-top:64px;
+      background:var(--line); border-radius:16px; overflow:hidden;
+    }
+    .feat-card { background:var(--card); padding:36px 32px; }
+    .feat-icon {
+      width:46px; height:46px; border-radius:12px;
+      background:var(--gold-soft); border:1px solid var(--gold-hairline);
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px; margin-bottom:20px;
+    }
+    .feat-title { font-size:17px; font-weight:500; letter-spacing:-0.3px; margin-bottom:10px; }
+    .feat-desc  { font-size:14px; color:var(--text-2); line-height:1.7; }
+
+    /* ─── STEPS ─────────────────────────────────────────────────────────── */
+    .steps-grid {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:32px; margin-top:64px;
+    }
+    .step-num {
+      font-size:10px; font-weight:500; letter-spacing:2px;
+      color:var(--gold); text-transform:uppercase; margin-bottom:16px;
+    }
+    .step-photo {
+      width:100%; aspect-ratio:4/3; border-radius:12px;
+      object-fit:cover; margin-bottom:16px; filter:brightness(.8);
+    }
+    .step-title { font-size:15px; font-weight:500; margin-bottom:6px; }
+    .step-desc  { font-size:13px; color:var(--text-2); line-height:1.65; }
+
+    /* ─── TESTIMONIAL ───────────────────────────────────────────────────── */
+    .testimonial {
+      background:var(--card); border:1px solid var(--line);
+      border-radius:20px; padding:48px; margin-top:64px; position:relative; overflow:hidden;
+    }
+    .testimonial::before {
+      content:'"'; position:absolute; top:-16px; left:36px;
+      font-size:130px; font-weight:300; line-height:1;
+      color:rgba(212,175,55,.08); font-family:Georgia,serif;
+    }
+    .t-grid {
+      display:grid; grid-template-columns:1fr auto;
+      gap:48px; align-items:center;
+    }
+    .t-quote {
+      font-size:22px; font-weight:300; letter-spacing:-0.4px;
+      line-height:1.55; position:relative; z-index:1;
+    }
+    .t-author { display:flex; align-items:center; gap:14px; margin-top:24px; }
+    .t-photo  {
+      width:52px; height:52px; border-radius:50%; object-fit:cover;
+      border:1.5px solid var(--gold-hairline);
+    }
+    .t-name { font-size:14px; font-weight:500; }
+    .t-role { font-size:12px; color:var(--text-3); }
+    .t-metrics {
+      display:flex; gap:32px; margin-top:32px;
+      padding-top:32px; border-top:1px solid var(--line);
+    }
+    .tm-num {
+      font-size:28px; font-weight:300; letter-spacing:-0.8px;
+      color:var(--gold); font-feature-settings:'tnum'; line-height:1;
+    }
+    .tm-lbl { font-size:12px; color:var(--text-3); margin-top:3px; }
+    .t-score {
+      background:var(--gold-soft); border:1px solid var(--gold-hairline);
+      border-radius:16px; padding:28px 24px; text-align:center; min-width:160px;
+    }
+    .t-score-num {
+      font-size:52px; font-weight:300; letter-spacing:-2px;
+      color:var(--gold); font-feature-settings:'tnum'; line-height:1;
+    }
+    .t-stars { font-size:18px; color:var(--gold); margin:6px 0; letter-spacing:2px; }
+    .t-score-lbl { font-size:11px; color:var(--text-3); line-height:1.5; }
+
+    /* ─── PRICING ───────────────────────────────────────────────────────── */
+    .pricing-grid {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:16px; margin-top:64px;
+    }
+    .plan-card {
+      background:var(--card); border:1px solid var(--line);
+      border-radius:16px; padding:32px; display:flex; flex-direction:column;
+    }
+    .plan-card.featured {
+      background:var(--gold); border-color:var(--gold);
+    }
+    .plan-card.featured .plan-tier   { color:rgba(10,17,40,.55); }
+    .plan-card.featured .plan-price  { color:var(--navy); }
+    .plan-card.featured .plan-cycle  { color:rgba(10,17,40,.5); }
+    .plan-card.featured .plan-about  { color:rgba(10,17,40,.65); }
+    .plan-card.featured .plan-feat   { color:rgba(10,17,40,.75); }
+    .plan-card.featured .plan-feat-icon { color:var(--navy); }
+    .plan-card.featured .plan-cta    { background:var(--navy); color:var(--gold); border:none; }
+    .plan-badge {
+      display:inline-block; background:var(--navy); color:var(--gold);
+      font-size:10px; font-weight:600; letter-spacing:1px;
+      text-transform:uppercase; padding:3px 10px; border-radius:9999px; margin-bottom:20px;
+      width:fit-content;
+    }
+    .plan-tier {
+      font-size:12px; font-weight:500; letter-spacing:1.2px;
+      text-transform:uppercase; color:var(--text-3); margin-bottom:8px;
+    }
+    .plan-price {
+      font-size:42px; font-weight:300; letter-spacing:-1.5px; line-height:1;
+      margin-bottom:4px; font-feature-settings:'tnum';
+    }
+    .plan-cycle { font-size:13px; color:var(--text-3); margin-bottom:20px; }
+    .plan-about { font-size:13px; color:var(--text-2); line-height:1.65; margin-bottom:24px; flex:1; }
+    .plan-feats { list-style:none; margin-bottom:28px; display:flex; flex-direction:column; gap:10px; }
+    .plan-feat  { font-size:13px; color:var(--text-2); display:flex; gap:8px; align-items:flex-start; }
+    .plan-feat-icon { color:var(--gold); flex-shrink:0; margin-top:1px; }
+    .plan-cta {
+      width:100%; background:transparent; border:1px solid var(--gold-hairline);
+      color:var(--gold); padding:12px; border-radius:9999px;
+      font-size:14px; font-weight:600; cursor:pointer;
+      font-family:inherit; letter-spacing:-0.1px; margin-top:auto;
+    }
+
+    /* ─── CTA FINAL ─────────────────────────────────────────────────────── */
+    .cta-section {
+      background:var(--card);
+      border-top:1px solid var(--line);
+      padding:100px 0; text-align:center; position:relative; overflow:hidden;
+    }
+    .cta-section::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse 60% 60% at 50% 50%, rgba(212,175,55,.05) 0%, transparent 60%);
+    }
+    .cta-h2 {
+      font-size:50px; font-weight:300; letter-spacing:-1.4px; line-height:1.08;
+      margin-bottom:16px; position:relative; z-index:1;
+    }
+    .cta-h2 strong { font-weight:700; }
+    .cta-sub {
+      font-size:16px; color:var(--text-2); margin-bottom:36px;
+      position:relative; z-index:1;
+    }
+    .cta-btns {
+      display:flex; gap:12px; justify-content:center;
+      position:relative; z-index:1;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────────────── */
+    footer {
+      background:#000;
+      border-top:1px solid rgba(255,255,255,.05);
+      padding:48px 0 32px;
+    }
+    .footer-grid {
+      display:grid; grid-template-columns:1fr auto;
+      gap:48px; align-items:center;
+    }
+    .footer-copy { font-size:12px; color:var(--text-3); margin-top:8px; line-height:1.6; }
+    .footer-links { display:flex; gap:28px; }
+    .footer-links a {
+      font-size:13px; color:var(--text-3); text-decoration:none; transition:color .15s;
+    }
+    .footer-links a:hover { color:var(--text-2); }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══════════════════════════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <img src="https://d2xsxph8kpxj0f.cloudfront.net/310419663028841721/NEpQmgbm9teEL77zDyeopH/logo-individuum_2ce6e7e8.jpeg"
+           alt="Individuum" style="height:40px;filter:invert(1) brightness(4);" />
+      <nav class="nav-links">
+        <a href="#">Sobre a NR-1</a>
+        <a href="#">Como Funciona</a>
+        <a href="#">Módulos</a>
+        <a href="#">Planos</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-ghost">Entrar</button>
+        <button class="btn-pill-gold">Começar Grátis</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ HERO ════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+
+      <!-- Esquerda — texto -->
+      <div>
+        <div class="eyebrow">
+          <div class="eyebrow-dot"></div>
+          <span>NR-1 em vigor · Adeque-se agora</span>
+        </div>
+        <h1 class="hero-h1">
+          NR-1 Avaliação<br/>
+          <em>Psicossocial</em><br/>
+          <strong>Digital</strong>
+        </h1>
+        <p class="hero-sub">
+          Diagnóstico completo dos riscos ocupacionais da sua empresa.
+          Metodologia COPSOQ III Brasil, laudo técnico em PDF,
+          conformidade total com a NR-1/2025.
+        </p>
+        <div class="hero-btns">
+          <button class="btn-hero-primary">Começar Grátis</button>
+          <button class="btn-hero-secondary">Ver demonstração →</button>
+        </div>
+        <div class="social-proof">
+          <div class="avatars">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face" alt="" />
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face" alt="" />
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=64&h=64&fit=crop&crop=face" alt="" />
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&crop=face" alt="" />
+          </div>
+          <p class="social-text"><strong>+320 empresas</strong> já em conformidade</p>
+        </div>
+      </div>
+
+      <!-- Direita — visual -->
+      <div class="hero-visual">
+        <img class="hero-photo"
+             src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=900&h=1040&fit=crop&crop=center"
+             alt="Profissional de RH" />
+
+        <!-- Dashboard flutuante -->
+        <div class="fcard fcard-dashboard">
+          <div class="fc-label">Diagnóstico · Resultado Geral</div>
+          <div class="fc-metric">87<span style="font-size:18px;color:var(--text-3)">%</span></div>
+          <div class="fc-sub">Taxa de resposta · 214 colaboradores</div>
+          <div class="bars">
+            <div class="bar-row">
+              <div class="bar-header"><span>Carga de Trabalho</span><span style="font-feature-settings:'tnum'">Alto</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:72%;background:var(--gold)"></div></div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-header"><span>Apoio Social</span><span style="font-feature-settings:'tnum'">Médio</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:48%;background:#94A3B8"></div></div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-header"><span>Autonomia</span><span style="font-feature-settings:'tnum'">Baixo</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:28%;background:var(--red)"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Badge créditos -->
+        <div class="fcard fcard-badge">
+          <div class="badge-num">5</div>
+          <div class="badge-lbl">créditos<br/>grátis</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROOF STRIP ══════════════════════════════════════════════════════════ -->
+<div class="proof-strip">
+  <div class="container">
+    <div class="proof-inner">
+      <div class="proof-stat">
+        <div class="proof-num">320+</div>
+        <div class="proof-lbl">Empresas cadastradas</div>
+      </div>
+      <div class="proof-div"></div>
+      <div class="proof-stat">
+        <div class="proof-num">48k+</div>
+        <div class="proof-lbl">Colaboradores avaliados</div>
+      </div>
+      <div class="proof-div"></div>
+      <div class="proof-stat">
+        <div class="proof-num">98%</div>
+        <div class="proof-lbl">Satisfação com o laudo</div>
+      </div>
+      <div class="proof-div"></div>
+      <div class="proof-stat">
+        <div class="proof-num">72h</div>
+        <div class="proof-lbl">Do cadastro ao laudo</div>
+      </div>
+      <div class="proof-div"></div>
+      <div class="proof-stat">
+        <div class="proof-num">NR-1</div>
+        <div class="proof-lbl">Conformidade garantida</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FEATURES ════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div style="text-align:center;max-width:640px;margin:0 auto;">
+      <div class="sec-eye">Plataforma completa</div>
+      <h2 class="sec-h2">Tudo que você precisa para<br/><strong>cumprir a NR-1</strong></h2>
+      <p class="sec-sub" style="margin:0 auto;">Do questionário ao laudo, a Individuum cobre todo o ciclo de diagnóstico psicossocial — sem planilha, sem consultoria externa.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">📋</div>
+        <h3 class="feat-title">Questionário COPSOQ III</h3>
+        <p class="feat-desc">Metodologia científica validada para o Brasil, com questões adaptadas à realidade do mercado nacional.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📊</div>
+        <h3 class="feat-title">Matriz de Risco Dinâmica</h3>
+        <p class="feat-desc">Visualize resultados por setor, cargo e faixa etária. Identifique focos críticos em segundos.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📄</div>
+        <h3 class="feat-title">Laudo Técnico em PDF</h3>
+        <p class="feat-desc">Documento pronto para arquivamento e apresentação ao eSocial, com assinatura digital opcional.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">✉️</div>
+        <h3 class="feat-title">Disparo de Convites</h3>
+        <p class="feat-desc">Envie pesquisas por e-mail com 1 clique. Acompanhe taxa de resposta em tempo real.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔒</div>
+        <h3 class="feat-title">Anonimato Garantido</h3>
+        <p class="feat-desc">Nenhum colaborador é identificado individualmente. Conformidade total com a LGPD.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📈</div>
+        <h3 class="feat-title">Plano de Ação</h3>
+        <p class="feat-desc">Recomendações automáticas baseadas nos resultados para acelerar a adequação da empresa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COMO FUNCIONA ════════════════════════════════════════════════════════ -->
+<section style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container">
+    <div class="sec-eye">Passo a passo</div>
+    <h2 class="sec-h2">Do cadastro ao laudo<br/><strong>em 72 horas</strong></h2>
+    <div class="steps-grid">
+      <div>
+        <div class="step-num">01 — Cadastro</div>
+        <img class="step-photo" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop" alt="Cadastro" />
+        <div class="step-title">Crie sua conta grátis</div>
+        <div class="step-desc">Cadastre a empresa, configure as áreas e adicione colaboradores em minutos.</div>
+      </div>
+      <div>
+        <div class="step-num">02 — Campanha</div>
+        <img class="step-photo" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" alt="Campanha" />
+        <div class="step-title">Dispare a pesquisa</div>
+        <div class="step-desc">Selecione respondentes e envie convites por e-mail com um clique.</div>
+      </div>
+      <div>
+        <div class="step-num">03 — Diagnóstico</div>
+        <img class="step-photo" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Diagnóstico" />
+        <div class="step-title">Analise os resultados</div>
+        <div class="step-desc">Visualize a matriz de risco por setor e identifique os pontos críticos.</div>
+      </div>
+      <div>
+        <div class="step-num">04 — Laudo</div>
+        <img class="step-photo" src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=600&h=400&fit=crop" alt="Laudo" />
+        <div class="step-title">Emita o laudo técnico</div>
+        <div class="step-desc">Gere o PDF em conformidade com a NR-1/2025 pronto para arquivamento.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTEMUNHO ═══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="testimonial">
+      <div class="t-grid">
+        <div>
+          <p class="t-quote">
+            "Fizemos o diagnóstico de 3 unidades em uma semana. O laudo saiu sem precisar contratar consultoria. A plataforma é intuitiva e o suporte respondeu na hora."
+          </p>
+          <div class="t-author">
+            <img class="t-photo"
+                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=160&h=160&fit=crop&crop=face"
+                 alt="Carla Mendonça" />
+            <div>
+              <div class="t-name">Carla Mendonça</div>
+              <div class="t-role">Gerente de RH · Grupo Multilog</div>
+            </div>
+          </div>
+          <div class="t-metrics">
+            <div>
+              <div class="tm-num">3</div>
+              <div class="tm-lbl">unidades diagnosticadas</div>
+            </div>
+            <div>
+              <div class="tm-num">7 dias</div>
+              <div class="tm-lbl">do cadastro ao laudo</div>
+            </div>
+            <div>
+              <div class="tm-num">R$ 0</div>
+              <div class="tm-lbl">gasto com consultoria</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-score">
+          <div class="t-score-num">4.9</div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-score-lbl">Avaliação média<br/>de 320+ empresas</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PLANOS ════════════════════════════════════════════════════════════════ -->
+<section style="background:var(--card);border-top:1px solid var(--line);">
+  <div class="container">
+    <div style="text-align:center;max-width:560px;margin:0 auto 0;">
+      <div class="sec-eye">Planos</div>
+      <h2 class="sec-h2">Simples, transparente,<br/><strong>sem surpresas</strong></h2>
+    </div>
+    <div class="pricing-grid">
+
+      <!-- Free -->
+      <div class="plan-card">
+        <div class="plan-tier">Gratuito</div>
+        <div class="plan-price">R$ 0</div>
+        <div class="plan-cycle">Para sempre</div>
+        <p class="plan-about">Ideal para conhecer a plataforma e realizar um primeiro diagnóstico sem custo.</p>
+        <ul class="plan-feats">
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>1 campanha ativa</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>Até 30 respondentes</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>5 créditos de cortesia</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>Laudo básico em PDF</li>
+        </ul>
+        <button class="plan-cta">Começar Grátis</button>
+      </div>
+
+      <!-- Básico (featured) -->
+      <div class="plan-card featured">
+        <div class="plan-badge">Mais popular</div>
+        <div class="plan-tier">Básico</div>
+        <div class="plan-price">R$ 297</div>
+        <div class="plan-cycle">por mês</div>
+        <p class="plan-about">Para empresas que precisam diagnosticar com regularidade e em escala.</p>
+        <ul class="plan-feats">
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>Campanhas ilimitadas</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>Até 200 respondentes</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>100 créditos/mês</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>Laudo completo + plano de ação</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>Suporte prioritário</li>
+        </ul>
+        <button class="plan-cta">Assinar Básico</button>
+      </div>
+
+      <!-- Plus -->
+      <div class="plan-card">
+        <div class="plan-tier">Plus</div>
+        <div class="plan-price">R$ 597</div>
+        <div class="plan-cycle">por mês</div>
+        <p class="plan-about">Para empresas maiores com múltiplas unidades e alto volume de avaliações.</p>
+        <ul class="plan-feats">
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>Respondentes ilimitados</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>300 créditos/mês</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>Multi-unidades</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>API + integrações</li>
+          <li class="plan-feat"><span class="plan-feat-icon">✓</span>Gerente de sucesso dedicado</li>
+        </ul>
+        <button class="plan-cta">Assinar Plus</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA FINAL ═════════════════════════════════════════════════════════════ -->
+<div class="cta-section">
+  <div class="container">
+    <h2 class="cta-h2">Pronto para adequar<br/><strong>sua empresa à NR-1?</strong></h2>
+    <p class="cta-sub">Crie sua conta grátis e receba 5 créditos de cortesia. Sem cartão de crédito.</p>
+    <div class="cta-btns">
+      <button class="btn-hero-primary">Começar Grátis</button>
+      <button class="btn-hero-secondary">Falar com um especialista</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310419663028841721/NEpQmgbm9teEL77zDyeopH/logo-individuum_2ce6e7e8.jpeg"
+             alt="Individuum" style="height:32px;filter:invert(1) brightness(4);display:block;margin-bottom:10px;" />
+        <p class="footer-copy">
+          © 2026 Individuum. Todos os direitos reservados.<br/>
+          Psicologia profunda. Tecnologia com consciência.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacidade</a>
+        <a href="#">Termos</a>
+        <a href="#">Suporte</a>
+        <a href="#">Contato</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
