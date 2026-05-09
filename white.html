@@ -122,11 +122,22 @@
       color:var(--navy);
     }
     .hero-h1 em { color:var(--gold); font-style:normal; }
-    .hero-price {
-      font-family:'Montserrat',sans-serif;
-      font-size:16px; font-weight:700; color:var(--gold); margin-bottom:18px;
+    .hero-free-row {
+      display:flex; align-items:center; gap:10px; margin-bottom:10px;
     }
-    .hero-price small { font-size:12px; color:var(--text3); font-weight:400; margin-left:6px; }
+    .hero-free-badge {
+      background:var(--gold); color:#fff;
+      font-family:'Montserrat',sans-serif; font-size:10px; font-weight:800;
+      letter-spacing:1.5px; padding:4px 12px; border-radius:99px;
+      flex-shrink:0;
+    }
+    .hero-free-text {
+      font-size:13px; font-weight:600; color:var(--navy);
+    }
+    .hero-price {
+      font-size:13px; font-weight:400; color:var(--text2); margin-bottom:18px;
+    }
+    .hero-price small { font-size:12px; color:var(--text3); margin-left:4px; }
     .hero-desc {
       color:var(--text2); font-size:15px; line-height:1.75; margin-bottom:14px; max-width:500px;
     }
@@ -509,7 +520,7 @@
       </div>
       <div class="nav-actions">
         <button class="btn-ghost-sm">Entrar</button>
-        <button class="btn-gold">Assinar Agora</button>
+        <button class="btn-gold">Começar Grátis</button>
       </div>
     </div>
   </div>
@@ -533,15 +544,19 @@
           NR-1 AVALIAÇÃO<br/>DE RISCOS<br/>
           <em>100% DIGITAL</em>
         </h1>
-        <p class="hero-price">A PARTIR DE R$ 99,00 <small>/ mês · 12 meses</small></p>
+        <div class="hero-free-row">
+          <span class="hero-free-badge">TESTE GRÁTIS</span>
+          <span class="hero-free-text">Comece grátis, sem cartão. Sem compromisso.</span>
+        </div>
+        <p class="hero-price">5 créditos de cortesia para conhecer a plataforma <small>· planos a partir de R$ 99/mês</small></p>
         <p class="hero-desc">Todo o processo de inventário de riscos psicossociais de forma digital — com IA, envio automatizado de e-mail e laudo técnico assinado. Do cadastro ao diagnóstico, em tempo real.</p>
         <p class="hero-tagline">"Com a Individuum você tem tecnologia que organiza,<br/>cuidado que conecta."</p>
         <div class="hero-btns">
           <button class="btn-hero-primary">
-            Cadastrar Minha Empresa
+            Criar Conta Gratuita
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <button class="btn-hero-outline">Ver como funciona</button>
+          <button class="btn-hero-outline">Ver planos pagos</button>
         </div>
         <div class="trust-row">
           <div class="trust-item">
